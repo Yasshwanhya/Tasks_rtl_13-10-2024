@@ -1,20 +1,19 @@
 module fp_add#(
-parameter int1=4,
-parameter frac1=5,
-parameter int2=3,
-parameter frac2=5,
-  parameter out_int=(int1>=int2)?(2*int1):(2*int2), 
-
-  parameter out_frac=(frac1>frac2)?frac1:frac2
-)
-(
+    parameter int1=4,
+    parameter frac1=5,
+    parameter int2=3,
+    parameter frac2=5,
+    parameter out_int=(int1>=int2)?(2*int1):(2*int2), 
+    parameter out_frac=(frac1>frac2)?frac1:frac2
+  )
+  (
        input clk,
        input rst,
        input signed [int1+frac1-1:0]a,
        input signed [int2+frac2-1:0]b,
        output reg overflow,
        output  reg signed [out_int+out_frac-1:0]sum
-);
+  );
  
  
  localparam int_max=(int1>=int2)?int1:int2;
@@ -112,7 +111,7 @@ begin
           temp_sumi = temp_sum[int_max+frac_max:frac_max];
           temp_sumf = temp_sum[frac_max:0];
      end
-     underflow = |temp_sumf[frac_max-1:0];
+     
      if(out_int>int_max)
         overflow=0;
      else if(temp_sum[int_max+frac_max]==0)
