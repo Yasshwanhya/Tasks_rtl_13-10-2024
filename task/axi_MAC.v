@@ -40,10 +40,12 @@ module axi_MAC #(
 								       and output <= acc;		 
 			*/							 
 		    
-   wire signed [out_frac+out_int-1:0]product;
+	wire signed [out_frac+out_int-1:0]pdt,product;
+	reg overflow;
 
-fp_mul #(int_a , frac_a , int_b , frac_b , out_int , out_frac )
-mult(clock,rstn,a,b,product);
+	fp_mul #(int_a , frac_a , int_b , frac_b , out_int , out_frac ) mult(clock,rstn,a,b,pdt);
+
+	fp_add #(int_a , frac_a , int_b , frac_b , out_int , out_frac ) addt(clock,rstn,pdt,acc,product);
 
 		//************** Multiply-Accumulate Logic **************//
 		always @(posedge clock or negedge rstn) 
