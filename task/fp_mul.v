@@ -4,8 +4,8 @@ module fp_mul
        parameter frac1=8,
        parameter int2=6,
        parameter frac2=8,
-       parameter out_int=6,
-       parameter out_frac=12
+       parameter out_int=int1+int2,
+       parameter out_frac=frac1+frac2
              ) (
                      input clk,
                      input reset,
