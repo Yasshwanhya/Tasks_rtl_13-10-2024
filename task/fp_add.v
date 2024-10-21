@@ -3,8 +3,7 @@ module fp_add#(
     parameter frac1=5,
     parameter int2=3,
     parameter frac2=5,
-    parameter out_int=(int1>=int2)?(2*int1):(2*int2), 
-    parameter out_frac=(frac1>frac2)?frac1:frac2
+  
   )
   (
        input clk,
@@ -15,7 +14,8 @@ module fp_add#(
        output  reg signed [out_int+out_frac-1:0]sum
   );
  
- 
+    localparam out_int=(int1>=int2)?(2*int1):(2*int2);
+    localparam out_frac=(frac1>frac2)?frac1:frac2;
  localparam int_max=(int1>=int2)?int1:int2;
  localparam frac_max=(frac1>=frac2)?frac1:frac2;
  
