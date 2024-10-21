@@ -5,13 +5,9 @@ module Mac_TB();
      parameter int_a=6;
      parameter frac_a=8;
      parameter int_b=4;
-     parameter frac_b=7;
-     parameter dwa = int_a+frac_a;
-		 parameter dwb = int_b+frac_b;
-		 parameter out_int =  (int_a>=int_b)?(2*int_a):(2*int_b);    
-		 parameter out_frac = (frac_a>=frac_b)?(2*frac_a):(2*frac_b) ;  
-					
-		 reg clock;
+     parameter frac_b=7;		
+
+     reg clock;
      reg rstn;
      reg signed [int_a+frac_a-1:0]a_data;
      reg a_valid;
