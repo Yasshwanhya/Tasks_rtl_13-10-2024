@@ -18,8 +18,7 @@ module axi_MAC #(
     parameter frac_a=8,
     parameter int_b=6,
     parameter frac_b=8,
-    parameter out_int = (int_a>=int_b)?(2*int_a):(2*int_b),   
-    parameter out_frac = (frac_a>=frac_b)?(2*frac_a):(2*frac_b)
+    
 )(
     input clock,
     input rstn,
@@ -35,8 +34,13 @@ module axi_MAC #(
     output reg signed [out_int+out_frac-1:0] product_out,
     output reg ready_o,
     output reg valid_o,
-    output reg last_o
+    output reg last_o,
+
+    output overflow,
+    output underflow
 );
+    localparam out_int = (int_a>=int_b)?(2*int_a):(2*int_b);   
+    localparam out_frac = (frac_a>=frac_b)?(2*frac_a):(2*frac_b);
 
     // State Definitions (using localparam)
     localparam [1:0] RESET = 2'b00, MAC = 2'b01, OUTPUT = 2'b10;
@@ -60,9 +64,11 @@ module axi_MAC #(
     fp_add #(int_a, frac_a, int_b, frac_b, out_int, out_frac) addt (
         .clock(clock),
         .rstn(rstn),
-        .pdt(pdt),
-        .accc(accc),
-        .product(product)
+        .a(pdt),
+        .b(accc),
+        .out(product),
+        .overflow(overflow),
+        .underflow(underflow)
     );
 
     // FSM State Transitions
