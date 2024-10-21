@@ -22,7 +22,7 @@ module Mac_TB();
      wire mac_axi_valid;
      wire mac_axi_last; 
           
-     MAC_final#( int_a, frac_a, int_b, frac_b, dwa,dwb )taskcheck(
+     MAC_final#( int_a, frac_a, int_b, frac_b )taskcheck(
                           .clock(clock),
                           .rstn(rstn),
                           .a_data(a_data),
