@@ -19,10 +19,10 @@ module axi#(
                               
                  reg [dw-1:0]data_reg;
                  reg valid, ready, last;
-                 
+                 wire ready1;
                  //**************** ALWAYS_BLOCK_ONE ****************//
                  //   data and control signals controlled registering
-                 
+                 assign ready1 = m_tready;
                  always @(posedge clk)
                  begin
                         if(!rstn)
@@ -36,7 +36,7 @@ module axi#(
                         begin
                                 if (s_tvalid)
                                 begin
-                                        ready <= m_tready;
+                                        ready <= ready1;
                                         if (ready)
                                         begin
                                             valid <= s_tvalid;
