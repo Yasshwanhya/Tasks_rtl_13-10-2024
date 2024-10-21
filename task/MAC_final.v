@@ -3,11 +3,8 @@ module MAC_final#(
                         parameter int_a=6,
 			parameter frac_a=8,
 			parameter int_b=6,
-			parameter frac_b=8,
-			parameter dwa = int_a+frac_a,
-			parameter dwb = int_b+frac_b,
-			parameter out_int = (int_a>=int_b)?(2*int_a):(2*int_b),    
-			parameter out_frac = (frac_a>=frac_b)?(2*frac_a):(2*frac_b)
+			parameter frac_b=8
+			
 		 )(
                           input clock,
                           input rstn,
@@ -26,11 +23,14 @@ module MAC_final#(
                            
                            //MAC_AXI
                            input mac_axi_ready,
-                           output signed [int_a+frac_a+int_b+frac_b-1:0]mac_axi_product,
+                           output reg signed [int_a+frac_a+int_b+frac_b-1:0]mac_axi_product,
                            output mac_axi_valid,
                            output mac_axi_last                   
                          );
-                         
+          localparam dwa = int_a+frac_a;
+	  localparam dwb = int_b+frac_b;
+	localparam out_int = (int_a>=int_b)?(2*int_a):(2*int_b);   
+	localparam out_frac = (frac_a>=frac_b)?(2*frac_a):(2*frac_b);               
           //internal connections declaration
           //************** data_a **************//               
           wire  [int_a+frac_a-1:0]data_a;
@@ -46,7 +46,7 @@ module MAC_final#(
           
           //************ MAC AXI *************// 
           reg valid_mac_axi, ready_mac_axi, last_mac_axi;     
-          
+	reg signed [int_a+frac_a+int_b+frac_b-1:0]mac_axi_product_f;
           //*********** axi for data A***********//     
            axi #(dwa) adata (
 				   .clock(clock),
@@ -113,12 +113,20 @@ module MAC_final#(
 						 .valid_i(valid_mac_axi),
 						 .ready_i(ready_mac_axi),
 						 .last_i(last_mac_axi),
-						 .product_out(mac_axi_product),
+						 .product_out(mac_axi_product_f),
 						 .valid_o(mac_axi_valid),
 						 .last_o(mac_axi_last)
 					 );
 		
-                 
+                 always @(posedge clock)
+                     begin
+                          if (overflow)
+                          mac_axi_product_fin <= max;
+                          else if(underflow)
+                          mac_axi_product_fin <= 0;
+                          else
+                          mac_axi_product <= mac_axi_product_f;
+                     end
                  
                      
                         
