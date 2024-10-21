@@ -11,6 +11,7 @@ module fp_add#(
        input signed [int1+frac1-1:0]a,
        input signed [int2+frac2-1:0]b,
        output reg overflow,
+       output reg underflow,
        output  reg signed [out_int+out_frac-1:0]sum
   );
  
@@ -110,19 +111,7 @@ begin
           temp_sum = temp_a+temp_b;
           temp_sumi = temp_sum[int_max+frac_max:frac_max];
           temp_sumf = temp_sum[frac_max:0];
-     end
-     
-     if(out_int>int_max)
-        overflow=0;
-     else if(temp_sum[int_max+frac_max]==0)
-        overflow=|temp_sum[int_max+frac_max:(int_max+frac_max-(int_max-(out_int-1)))];
-     else if(out_int==int_max)
-        overflow=(temp_a[int_max+frac_max-1]^temp_sum[int_max+frac_max-1]) &&
-                 (temp_b[int_max+frac_max-1]^temp_sum[int_max+frac_max-1]); 
-     else if(temp_sum[int_max+frac_max]==1)
-        overflow=(~(&temp_sum[int_max+frac_max:frac_max+out_int-1]));
-     else
-        overflow=0;  
+     end  
 end
 
 always@(posedge clk) begin
