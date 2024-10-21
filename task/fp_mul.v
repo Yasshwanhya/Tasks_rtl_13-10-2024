@@ -4,8 +4,7 @@ module fp_mul
        parameter frac1=8,
        parameter int2=6,
        parameter frac2=8,
-       parameter out_int=int1+int2,
-       parameter out_frac=frac1+frac2
+       
              ) (
                      input clk,
                      input reset,
@@ -13,7 +12,8 @@ module fp_mul
                      input signed [int2+frac2-1:0]b,
                      output  reg signed [out_int+out_frac-1:0]product
                );
- 
+localparam out_int=int1+int2;
+localparam out_frac=frac1+frac2;
 localparam int_max=(int1>=int2)?int1:int2;
 localparam frac_max=(frac1>=frac2)?frac1:frac2;
 
