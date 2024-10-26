@@ -101,7 +101,7 @@ module tb_mac_axi_tasks();
                         #10;
                         while(!a_ready)
                         begin
-                            #30;
+                            #10;
                         end
                         for(j=1;j==var;j=j+1)
                         begin
@@ -142,7 +142,7 @@ module tb_mac_axi_tasks();
                         #10;
                         while(!b_ready)
                         begin
-                            #30;
+                            #10;
                         end
                         for(j=1;j==var;j=j+1)
                         begin
